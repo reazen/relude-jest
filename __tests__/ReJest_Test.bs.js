@@ -5,14 +5,11 @@ var Curry = require("bs-platform/lib/js/curry.js");
 var Caml_format = require("bs-platform/lib/js/caml_format.js");
 
 describe("Describe", (function () {
-        test("test basic", (function () {
-                return expect(42).toEqual(42);
-              }));
-        test("test (only)", (function () {
-                return expect(42).toEqual(42);
-              }));
-        describe.skip("test (skipped)", (function () {
-                return expect(42).toEqual(42);
+        describe.skip("skip", (function () {
+                test("skip", (function () {
+                        return expect(42).toEqual(42);
+                      }));
+                
               }));
         describe.each([
                 "a",
@@ -144,6 +141,9 @@ describe("Test", (function () {
         test("it", (function (onDone) {
                 expect(42).toEqual(42);
                 return Curry._1(onDone, undefined);
+              }));
+        test("itPromise", (function () {
+                return Promise.resolve(expect(42).toEqual(42));
               }));
         test.each([
                 "a",

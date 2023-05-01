@@ -14,3 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Initial port of bindings from [green-labs/rescript-bindings](https://github.com/green-labs/rescript-bindings/tree/main/packages/rescript-jest)
+
+## [0.2.0] - 2023-05-01
+
+### Added
+
+- More tests

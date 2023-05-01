@@ -2,16 +2,19 @@ open ReJest;
 open Expect;
 
 describe("Describe", () => {
-  test("test basic", () => {
-    expect(42)->toEqual(42)
-  });
+  /*
+   Describe.only("only", () => {
+     test("only", () => {
+       expect(42)->toEqual(42)
+     })
+   });
+   */
 
-  // only (change the test to `only` to try it)
-  test("test (only)", () => {
-    expect(42)->toEqual(42)
+  Describe.skip("skip", () => {
+    test("skip", () => {
+      expect(42)->toEqual(42)
+    })
   });
-
-  Describe.skip("test (skipped)", () => {expect(42)->toEqual(42)});
 
   (Describe.each1([|"a", "b", "c"|]))(. "test", value => {
     test("each1", () => {
@@ -86,6 +89,10 @@ describe("Test", () => {
   Test.it(."it", onDone => {
     expect(42)->toEqual(42);
     onDone();
+  });
+
+  Test.itPromise("itPromise", () => {
+    Js.Promise.resolve(expect(42)->toEqual(42))
   });
 
   (Test.eachAsync1([|"a", "b"|]))(. "eachAsync1", (a, onDone) => {
