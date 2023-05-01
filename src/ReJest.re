@@ -1,5 +1,3 @@
-//type finishFn = [@bs.uncurry] (unit => unit);
-
 // Global Functions
 [@bs.val]
 external describe: (string, [@bs.uncurry] (unit => unit)) => unit = "describe";
@@ -49,8 +47,7 @@ external testPromiseTimeout:
   "test";
 
 [@bs.val]
-external testAsync: (string, [@bs.uncurry] ((unit, unit) => unit)) => unit =
-  "test";
+external testAsync: (. string, (unit => unit) => unit) => unit = "test";
 
 [@bs.val]
 external testAsyncTimeout:
@@ -59,8 +56,7 @@ external testAsyncTimeout:
 
 // test closure
 module Test = {
-  [@bs.val]
-  external it: (string, [@bs.uncurry] (unit => unit)) => unit = "test";
+  [@bs.val] external it: (. string, (unit => unit) => unit) => unit = "test";
 
   [@bs.val]
   external itPromise:
@@ -601,17 +597,16 @@ module Expect = {
     (expect(Mock.t(_, _, 'return), 'expect_ret), 'return) => 'expect_ret =
     "toHaveLastReturnedWith";
 
-  /* Warning: if your mock function argument length is 1 and type is array, use 'toHaveBeenNthCalledWith1' safety */
-  /*
-   let toHaveBeenNthCalledWith:
-     (expect(Mock.t(_, 'arg, _), 'expect_ret), int, 'arg) => 'expect_ret = [%bs.raw
-     {|
-        function (fn, nth, args) {
-          return expect(fn).toHaveBeenNthCalledWith(nth, ...(Array.isArray(args) ? args : [args]));
-        }
-      |}
-   ];
-   */
+  /* TODO
+     let toHaveBeenNthCalledWith:
+       (expect(Mock.t(_, 'arg, _), 'expect_ret), int, 'arg) => 'expect_ret = [%bs.raw
+       {|
+           function (fn, nth, args) {
+             return expect(fn).toHaveBeenNthCalledWith(nth, ...(Array.isArray(args) ? args : [args]));
+           }
+         |}
+     ];
+     */
 
   [@bs.send]
   external toHaveBeenNthCalledWith1:
