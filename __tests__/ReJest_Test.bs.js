@@ -752,7 +752,7 @@ describe("Mock", (function () {
         test.todo("empty");
         test("make", (function () {
                 var mock = jest.fn(function (str) {
-                      return str + "";
+                      return str + "!";
                     });
                 Curry._1(mock, "Hello");
                 Curry._1(mock, "Green");
@@ -760,11 +760,11 @@ describe("Mock", (function () {
                 expect(mock).toBeCalled();
                 expect(mock).toBeCalledTimes(3);
                 expect(mock).toHaveBeenNthCalledWith(1, "Hello");
-                expect(mock).toHaveNthReturnedWith(1, "Hello");
+                expect(mock).toHaveNthReturnedWith(1, "Hello!");
                 expect(mock).toHaveBeenNthCalledWith(2, "Green");
-                expect(mock).toHaveNthReturnedWith(2, "Green");
+                expect(mock).toHaveNthReturnedWith(2, "Green!");
                 expect(mock).toHaveBeenLastCalledWith("Last");
-                return expect(mock).toHaveLastReturnedWith("Last");
+                return expect(mock).toHaveLastReturnedWith("Last!");
               }));
         test.todo("make2");
         test.todo("make3");

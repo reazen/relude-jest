@@ -558,7 +558,7 @@ module Expect = {
   [@bs.send]
   external toHaveBeenLastCalledWith3:
     (
-      expect(Mock.t(_, ('arg1, 'arg2), _), 'expect_ret),
+      expect(Mock.t(_, ('arg1, 'arg2, 'arg3), _), 'expect_ret),
       'arg1,
       'arg2,
       'arg3
@@ -700,7 +700,7 @@ module Expect = {
   [@bs.send]
   external toHaveBeenCalledWith3:
     (
-      expect(Mock.t(_, ('arg1, 'arg2), _), 'expect_ret),
+      expect(Mock.t(_, ('arg1, 'arg2, 'arg3), _), 'expect_ret),
       'arg1,
       'arg2,
       'arg3

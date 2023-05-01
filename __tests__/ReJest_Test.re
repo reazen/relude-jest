@@ -745,7 +745,7 @@ describe("Mock", () => {
   Test.todo("empty");
 
   test("make", () => {
-    let mock = Mock.make(str => str ++ "");
+    let mock = Mock.make(str => str ++ "!");
 
     mock->Mock.fn("Hello")->ignore;
     mock->Mock.fn("Green")->ignore;
@@ -755,13 +755,13 @@ describe("Mock", () => {
     expect(mock)->toBeCalledTimes(3);
 
     expect(mock)->toHaveBeenNthCalledWith1(1, "Hello");
-    expect(mock)->toHaveNthReturnedWith(1, "Hello");
+    expect(mock)->toHaveNthReturnedWith(1, "Hello!");
 
     expect(mock)->toHaveBeenNthCalledWith1(2, "Green");
-    expect(mock)->toHaveNthReturnedWith(2, "Green");
+    expect(mock)->toHaveNthReturnedWith(2, "Green!");
 
     expect(mock)->toHaveBeenLastCalledWith1("Last");
-    expect(mock)->toHaveLastReturnedWith("Last");
+    expect(mock)->toHaveLastReturnedWith("Last!");
   });
 
   Test.todo("make2");
