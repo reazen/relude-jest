@@ -47,16 +47,20 @@ external testPromiseTimeout:
   "test";
 
 [@bs.val]
-external testAsync: (. string, (unit => unit) => unit) => unit = "test";
+external testAsync: (string, [@bs.uncurry] ((unit => unit) => unit)) => unit =
+  "test";
 
 [@bs.val]
 external testAsyncTimeout:
-  (. string, (unit => unit) => unit, ~timeout: int) => unit =
+  (string, [@bs.uncurry] ((unit => unit) => unit), ~timeout: int) => unit =
   "test";
 
 // test closure
 module Test = {
-  [@bs.val] external it: (. string, (unit => unit) => unit) => unit = "test";
+  // Test.it
+
+  [@bs.val]
+  external it: (string, [@bs.uncurry] (unit => unit)) => unit = "test";
 
   [@bs.val]
   external itPromise:
@@ -69,36 +73,39 @@ module Test = {
     "test";
 
   [@bs.val]
-  external itAsync: (. string, (unit => unit) => unit) => unit = "test";
+  external itAsync: (string, [@bs.uncurry] ((unit => unit) => unit)) => unit =
+    "test";
 
   [@bs.val]
   external itAsyncTimeout:
-    (. string, (unit => unit) => unit, ~timeout: int) => unit =
+    (string, [@bs.uncurry] ((unit => unit) => unit), ~timeout: int) => unit =
     "test";
 
-  /* TODO - fix signatures for uncurry
-     [@bs.val] [@bs.scope "test"]
-     external only: (string, [@bs.uncurry] (unit => unit)) => unit = "only";
+  // Test.only
 
-     [@bs.val] [@bs.scope "test"]
-     external onlyPromise:
-       (string, [@bs.uncurry] (unit => Js.Promise.t('a))) => unit =
-       "only";
+  [@bs.val] [@bs.scope "test"]
+  external only: (string, [@bs.uncurry] (unit => unit)) => unit = "only";
 
-     [@bs.val] [@bs.scope "test"]
-     external onlyPromiseTimeout:
-       (string, [@bs.uncurry] (unit => Js.Promise.t('a)), ~timeout: int) => unit =
-       "only";
+  [@bs.val] [@bs.scope "test"]
+  external onlyPromise:
+    (string, [@bs.uncurry] (unit => Js.Promise.t('a))) => unit =
+    "only";
 
-     [@bs.val] [@bs.scope "test"]
-     external onlyAsync: (string, [@bs.uncurry] ((unit, unit) => unit)) => unit =
-       "only";
+  [@bs.val] [@bs.scope "test"]
+  external onlyPromiseTimeout:
+    (string, [@bs.uncurry] (unit => Js.Promise.t('a)), ~timeout: int) => unit =
+    "only";
 
-     [@bs.val] [@bs.scope "test"]
-     external onlyAsyncTimeout:
-       (string, [@bs.uncurry] ((unit, unit) => unit), ~timeout: int) => unit =
-       "only";
-       */
+  [@bs.val] [@bs.scope "test"]
+  external onlyAsync: (string, [@bs.uncurry] ((unit => unit) => unit)) => unit =
+    "only";
+
+  [@bs.val] [@bs.scope "test"]
+  external onlyAsyncTimeout:
+    (string, [@bs.uncurry] ((unit => unit) => unit), ~timeout: int) => unit =
+    "only";
+
+  // Test.failing
 
   /* TODO: failing not found
      [@bs.val] [@bs.scope "test"]
@@ -124,33 +131,29 @@ module Test = {
        "failing";
        */
 
-  /* TODO: implement skip
-     [@bs.val] [@bs.scope "test"]
-     external skip: (string, [@bs.uncurry] (unit => unit)) => unit = "skip";
+  [@bs.val] [@bs.scope "test"]
+  external skip: (string, [@bs.uncurry] (unit => unit)) => unit = "skip";
 
-     [@bs.val] [@bs.scope "test"]
-     external skipPromise:
-       (string, [@bs.uncurry] (unit => Js.Promise.t('a))) => unit =
-       "skip";
+  [@bs.val] [@bs.scope "test"]
+  external skipPromise:
+    (string, [@bs.uncurry] (unit => Js.Promise.t('a))) => unit =
+    "skip";
 
-     [@bs.val] [@bs.scope "test"]
-     external skipPromiseTimeout:
-       (string, [@bs.uncurry] (unit => Js.Promise.t('a)), ~timeout: int) => unit =
-       "skip";
+  [@bs.val] [@bs.scope "test"]
+  external skipPromiseTimeout:
+    (string, [@bs.uncurry] (unit => Js.Promise.t('a)), ~timeout: int) => unit =
+    "skip";
 
-     [@bs.val] [@bs.scope "test"]
-     external skipAsync: (string, [@bs.uncurry] ((unit, unit) => unit)) => unit =
-       "skip";
+  [@bs.val] [@bs.scope "test"]
+  external skipAsync: (string, [@bs.uncurry] ((unit => unit) => unit)) => unit =
+    "skip";
 
-     [@bs.val] [@bs.scope "test"]
-     external skipAsyncTimeout:
-       (string, [@bs.uncurry] ((unit, unit) => unit), ~timeout: int) => unit =
-       "skip";
-       */
+  [@bs.val] [@bs.scope "test"]
+  external skipAsyncTimeout:
+    (string, [@bs.uncurry] ((unit => unit) => unit), ~timeout: int) => unit =
+    "skip";
 
-  /* TODO: implement todo
-     [@bs.val] [@bs.scope "test"] external todo: string => unit = "todo";
-     */
+  [@bs.val] [@bs.scope "test"] external todo: string => unit = "todo";
 
   [@bs.val] [@bs.scope "test"]
   external each1: array('a) => (. string, 'a => unit) => unit = "each";
@@ -263,31 +266,32 @@ module Test = {
 
   [@bs.val] [@bs.scope "test"]
   external eachAsync1Timeout:
-    array('a) => (. string, ('a, unit => unit) => unit, int) => unit =
+    array('a) => (. string, ('a, unit => unit) => unit, ~timeout: int) => unit =
     "each";
 
   [@bs.val] [@bs.scope "test"]
   external eachAsync2Timeout:
     array(('a, 'b)) =>
-    (. string, ('a, 'b, unit => unit) => unit, int) => unit =
+    (. string, ('a, 'b, unit => unit) => unit, ~timeout: int) => unit =
     "each";
 
   [@bs.val] [@bs.scope "test"]
   external eachAsync3Timeout:
     array(('a, 'b, 'c)) =>
-    (. string, ('a, 'b, 'c, unit => unit) => unit, int) => unit =
+    (. string, ('a, 'b, 'c, unit => unit) => unit, ~timeout: int) => unit =
     "each";
 
   [@bs.val] [@bs.scope "test"]
   external eachAsync4Timeout:
     array(('a, 'b, 'c, 'd)) =>
-    (. string, ('a, 'b, 'c, 'd, unit => unit) => unit, int) => unit =
+    (. string, ('a, 'b, 'c, 'd, unit => unit) => unit, ~timeout: int) => unit =
     "each";
 
   [@bs.val] [@bs.scope "test"]
   external eachAsync5Timeout:
     array(('a, 'b, 'c, 'd, 'e)) =>
-    (. string, ('a, 'b, 'c, 'd, 'e, unit => unit) => unit, int) => unit =
+    (. string, ('a, 'b, 'c, 'd, 'e, unit => unit) => unit, ~timeout: int) =>
+    unit =
     "each";
 };
 
@@ -351,7 +355,7 @@ external afterEachAsync: ([@bs.uncurry] ((unit => unit) => unit)) => unit =
 
 [@bs.val]
 external afterEachAsyncTimeout:
-  ([@bs.uncurry] ((unit, unit) => unit), ~timeout: int) => unit =
+  ([@bs.uncurry] ((unit => unit) => unit), ~timeout: int) => unit =
   "afterEach";
 
 [@bs.val]
@@ -367,12 +371,12 @@ external afterAllPromiseTimeout:
   "afterAll";
 
 [@bs.val]
-external afterAllAsync: ([@bs.uncurry] ((unit, unit) => unit)) => unit =
+external afterAllAsync: ([@bs.uncurry] ((unit => unit) => unit)) => unit =
   "afterAll";
 
 [@bs.val]
 external afterAllAsyncTimeout:
-  ([@bs.uncurry] ((unit, unit) => unit), ~timeout: int) => unit =
+  ([@bs.uncurry] ((unit => unit) => unit), ~timeout: int) => unit =
   "afterAll";
 
 // Mock Module

@@ -5,6 +5,12 @@ var Curry = require("bs-platform/lib/js/curry.js");
 var Caml_format = require("bs-platform/lib/js/caml_format.js");
 
 describe("Describe", (function () {
+        describe.skip("skip", (function () {
+                test("skip", (function () {
+                        return expect(42).toEqual(42);
+                      }));
+                
+              }));
         describe.each([
                 "a",
                 "b",
@@ -133,9 +139,8 @@ describe("Test globals", (function () {
       }));
 
 describe("Test", (function () {
-        test("it", (function (onDone) {
-                expect(42).toEqual(42);
-                return Curry._1(onDone, undefined);
+        test("it", (function () {
+                return expect(42).toEqual(42);
               }));
         test("itPromise", (function () {
                 return Promise.resolve(expect(42).toEqual(42));
@@ -150,6 +155,128 @@ describe("Test", (function () {
         test("itAsync", (function (onDone) {
                 expect(42).toEqual(42);
                 return Curry._1(onDone, undefined);
+              }), 0);
+        test.todo("failing");
+        test.todo("failingPromise");
+        test.todo("failingPromiseTimeout");
+        test.todo("failingAsync");
+        test.todo("failingAsyncTimeout");
+        test.skip("skip", (function () {
+                return expect(42).toEqual(42);
+              }));
+        test.skip("skipPromise", (function () {
+                return Promise.resolve(expect(42).toEqual(42));
+              }));
+        test.skip("skipPromise", (function () {
+                return Promise.resolve(expect(42).toEqual(42));
+              }), 0);
+        test.skip("skipAsync", (function (onDone) {
+                expect(42).toEqual(42);
+                return Curry._1(onDone, undefined);
+              }));
+        test.skip("skipAsyncTimeout", (function (onDone) {
+                expect(42).toEqual(42);
+                return Curry._1(onDone, undefined);
+              }), 0);
+        test.todo("todo");
+        test.each(["a"])("each1", (function (a) {
+                return expect(a).toEqual(a);
+              }));
+        test.each([[
+                  "1",
+                  1
+                ]])("each2", (function (a, b) {
+                return expect(Caml_format.caml_int_of_string(a)).toEqual(b);
+              }));
+        test.each([[
+                  "1",
+                  1,
+                  "1"
+                ]])("each3", (function (a, _b, c) {
+                return expect(String(Caml_format.caml_int_of_string(a))).toEqual(c);
+              }));
+        test.each([[
+                  "1",
+                  1,
+                  "1",
+                  1
+                ]])("each4", (function (a, _b, _c, d) {
+                return expect(Caml_format.caml_int_of_string(String(Caml_format.caml_int_of_string(a)))).toEqual(d);
+              }));
+        test.each([[
+                  "1",
+                  1,
+                  "1",
+                  1,
+                  "1"
+                ]])("each4", (function (a, _b, _c, _d, e) {
+                return expect(String(Caml_format.caml_int_of_string(String(Caml_format.caml_int_of_string(a))))).toEqual(e);
+              }));
+        test.each(["1"])("eachPromise1", (function (a) {
+                return Promise.resolve(expect(a).toEqual(a));
+              }));
+        test.each([[
+                  "1",
+                  1
+                ]])("eachPromise2", (function (a, b) {
+                return Promise.resolve(expect(Caml_format.caml_int_of_string(a)).toEqual(b));
+              }));
+        test.each([[
+                  "1",
+                  1,
+                  "1"
+                ]])("eachPromise3", (function (a, _b, c) {
+                return Promise.resolve(expect(String(Caml_format.caml_int_of_string(a))).toEqual(c));
+              }));
+        test.each([[
+                  "1",
+                  1,
+                  "1",
+                  1
+                ]])("eachPromise4", (function (a, _b, _c, d) {
+                return Promise.resolve(expect(Caml_format.caml_int_of_string(String(Caml_format.caml_int_of_string(a)))).toEqual(d));
+              }));
+        test.each([[
+                  "1",
+                  1,
+                  "1",
+                  1,
+                  "1"
+                ]])("eachPromise5", (function (a, _b, _c, _d, e) {
+                return Promise.resolve(expect(String(Caml_format.caml_int_of_string(String(Caml_format.caml_int_of_string(a))))).toEqual(e));
+              }));
+        test.each(["1"])("eachPromise1Timeout", (function (a) {
+                return Promise.resolve(expect(a).toEqual(a));
+              }), 0);
+        test.each([[
+                  "1",
+                  1
+                ]])("eachPromise2Timeout", (function (a, b) {
+                return Promise.resolve(expect(Caml_format.caml_int_of_string(a)).toEqual(b));
+              }), 0);
+        test.each([[
+                  "1",
+                  1,
+                  "1"
+                ]])("eachPromise3Timeout", (function (a, _b, c) {
+                return Promise.resolve(expect(String(Caml_format.caml_int_of_string(a))).toEqual(c));
+              }), 0);
+        test.each([[
+                  "1",
+                  1,
+                  "1",
+                  1
+                ]])("eachPromise4Timeout", (function (a, _b, _c, d) {
+                return Promise.resolve(expect(Caml_format.caml_int_of_string(String(Caml_format.caml_int_of_string(a)))).toEqual(d));
+              }), 0);
+        test.each([[
+                  "1",
+                  1,
+                  "1",
+                  1,
+                  "1"
+                ]])("eachPromise5Timeout", (function (a, _b, _c, _d, e) {
+                return Promise.resolve(expect(String(Caml_format.caml_int_of_string(String(Caml_format.caml_int_of_string(a))))).toEqual(e));
               }), 0);
         test.each([
                 "a",
@@ -280,7 +407,349 @@ describe("Test", (function () {
                     }), 0);
       }));
 
+describe("beforeEach", (function () {
+        var count = {
+          contents: 0
+        };
+        beforeEach(function () {
+              count.contents = count.contents + 1 | 0;
+              
+            });
+        test("beforeEach 1", (function () {
+                return expect(count.contents).toEqual(1);
+              }));
+        test("beforeEach 2", (function () {
+                return expect(count.contents).toEqual(2);
+              }));
+        
+      }));
+
+describe("beforeEachPromise", (function () {
+        var count = {
+          contents: 0
+        };
+        beforeEach(function () {
+              count.contents = count.contents + 1 | 0;
+              return Promise.resolve(undefined);
+            });
+        test("beforeEachPromise 1", (function () {
+                return expect(count.contents).toEqual(1);
+              }));
+        test("beforeEachPromise 2", (function () {
+                return expect(count.contents).toEqual(2);
+              }));
+        
+      }));
+
+describe("beforeEachPromiseTimeout", (function () {
+        var count = {
+          contents: 0
+        };
+        beforeEach((function () {
+                count.contents = count.contents + 1 | 0;
+                return Promise.resolve(undefined);
+              }), 0);
+        test("beforeEachPromiseTimeout 1", (function () {
+                return expect(count.contents).toEqual(1);
+              }));
+        test("beforeEachPromiseTimeout 2", (function () {
+                return expect(count.contents).toEqual(2);
+              }));
+        
+      }));
+
+describe("beforeEachAsync", (function () {
+        var count = {
+          contents: 0
+        };
+        beforeEach(function (onDone) {
+              count.contents = count.contents + 1 | 0;
+              return Curry._1(onDone, undefined);
+            });
+        test("beforeEachAsync 1", (function () {
+                return expect(count.contents).toEqual(1);
+              }));
+        test("beforeEachAsync 2", (function () {
+                return expect(count.contents).toEqual(2);
+              }));
+        
+      }));
+
+describe("beforeEachAsyncTimeout", (function () {
+        var count = {
+          contents: 0
+        };
+        beforeEach((function (onDone) {
+                count.contents = count.contents + 1 | 0;
+                return Curry._1(onDone, undefined);
+              }), 0);
+        test("beforeEachAsyncTimeout 1", (function () {
+                return expect(count.contents).toEqual(1);
+              }));
+        test("beforeEachAsyncTimeout 2", (function () {
+                return expect(count.contents).toEqual(2);
+              }));
+        
+      }));
+
+describe("beforeAll", (function () {
+        var count = {
+          contents: 0
+        };
+        beforeAll(function () {
+              count.contents = count.contents + 1 | 0;
+              
+            });
+        test("beforeAll 1", (function () {
+                return expect(count.contents).toEqual(1);
+              }));
+        test("beforeAll 2", (function () {
+                return expect(count.contents).toEqual(1);
+              }));
+        
+      }));
+
+describe("beforeAllPromise", (function () {
+        var count = {
+          contents: 0
+        };
+        beforeAll(function () {
+              count.contents = count.contents + 1 | 0;
+              return Promise.resolve(undefined);
+            });
+        test("beforeAllPromise 1", (function () {
+                return expect(count.contents).toEqual(1);
+              }));
+        test("beforeAllPromise 2", (function () {
+                return expect(count.contents).toEqual(1);
+              }));
+        
+      }));
+
+describe("beforeAllPromiseTimeout", (function () {
+        var count = {
+          contents: 0
+        };
+        beforeAll((function () {
+                count.contents = count.contents + 1 | 0;
+                return Promise.resolve(undefined);
+              }), 0);
+        test("beforeAllPromiseTimeout 1", (function () {
+                return expect(count.contents).toEqual(1);
+              }));
+        test("beforeAllPromiseTimeout 2", (function () {
+                return expect(count.contents).toEqual(1);
+              }));
+        
+      }));
+
+describe("beforeAllAsync", (function () {
+        var count = {
+          contents: 0
+        };
+        beforeAll(function (onDone) {
+              count.contents = count.contents + 1 | 0;
+              return Curry._1(onDone, undefined);
+            });
+        test("beforeAllAsync 1", (function () {
+                return expect(count.contents).toEqual(1);
+              }));
+        test("beforeAllAsync 2", (function () {
+                return expect(count.contents).toEqual(1);
+              }));
+        
+      }));
+
+describe("beforeAllAsyncTimeout", (function () {
+        var count = {
+          contents: 0
+        };
+        beforeAll((function (onDone) {
+                count.contents = count.contents + 1 | 0;
+                return Curry._1(onDone, undefined);
+              }), 0);
+        test("beforeAllAsyncTimeout 1", (function () {
+                return expect(count.contents).toEqual(1);
+              }));
+        test("beforeAllAsyncTimeout 2", (function () {
+                return expect(count.contents).toEqual(1);
+              }));
+        
+      }));
+
+describe("afterEach", (function () {
+        var count = {
+          contents: 0
+        };
+        afterEach(function () {
+              count.contents = count.contents + 1 | 0;
+              
+            });
+        test("afterEach 1", (function () {
+                return expect(count.contents).toEqual(0);
+              }));
+        test("afterEach 2", (function () {
+                return expect(count.contents).toEqual(1);
+              }));
+        
+      }));
+
+describe("afterEachPromise", (function () {
+        var count = {
+          contents: 0
+        };
+        afterEach(function () {
+              count.contents = count.contents + 1 | 0;
+              return Promise.resolve(undefined);
+            });
+        test("afterEachPromise 1", (function () {
+                return expect(count.contents).toEqual(0);
+              }));
+        test("afterEachPromise 2", (function () {
+                return expect(count.contents).toEqual(1);
+              }));
+        
+      }));
+
+describe("afterEachPromiseTimeout", (function () {
+        var count = {
+          contents: 0
+        };
+        afterEach((function () {
+                count.contents = count.contents + 1 | 0;
+                return Promise.resolve(undefined);
+              }), 0);
+        test("afterEachPromiseTimeout 1", (function () {
+                return expect(count.contents).toEqual(0);
+              }));
+        test("afterEachPromiseTimeout 2", (function () {
+                return expect(count.contents).toEqual(1);
+              }));
+        
+      }));
+
+describe("afterEachAsync", (function () {
+        var count = {
+          contents: 0
+        };
+        afterEach(function (onDone) {
+              count.contents = count.contents + 1 | 0;
+              return Curry._1(onDone, undefined);
+            });
+        test("afterEachAsync 1", (function () {
+                return expect(count.contents).toEqual(0);
+              }));
+        test("afterEachAsync 2", (function () {
+                return expect(count.contents).toEqual(1);
+              }));
+        
+      }));
+
+describe("afterEachAsyncTimeout", (function () {
+        var count = {
+          contents: 0
+        };
+        afterEach((function (onDone) {
+                count.contents = count.contents + 1 | 0;
+                return Curry._1(onDone, undefined);
+              }), 0);
+        test("afterEachAsyncTimeout 1", (function () {
+                return expect(count.contents).toEqual(0);
+              }));
+        test("afterEachAsyncTimeout 2", (function () {
+                return expect(count.contents).toEqual(1);
+              }));
+        
+      }));
+
+describe("afterAll", (function () {
+        var count = {
+          contents: 0
+        };
+        afterAll(function () {
+              count.contents = count.contents + 1 | 0;
+              
+            });
+        test("afterAll 1", (function () {
+                return expect(count.contents).toEqual(0);
+              }));
+        test("afterAll 2", (function () {
+                return expect(count.contents).toEqual(0);
+              }));
+        
+      }));
+
+describe("afterAllPromise", (function () {
+        var count = {
+          contents: 0
+        };
+        afterAll(function () {
+              count.contents = count.contents + 1 | 0;
+              return Promise.resolve(undefined);
+            });
+        test("afterAllPromise 1", (function () {
+                return expect(count.contents).toEqual(0);
+              }));
+        test("afterAllPromise 2", (function () {
+                return expect(count.contents).toEqual(0);
+              }));
+        
+      }));
+
+describe("afterAllPromiseTimeout", (function () {
+        var count = {
+          contents: 0
+        };
+        afterAll((function () {
+                count.contents = count.contents + 1 | 0;
+                return Promise.resolve(undefined);
+              }), 0);
+        test("afterAllPromiseTimeout 1", (function () {
+                return expect(count.contents).toEqual(0);
+              }));
+        test("afterAllPromiseTimeout 2", (function () {
+                return expect(count.contents).toEqual(0);
+              }));
+        
+      }));
+
+describe("afterAllAsync", (function () {
+        var count = {
+          contents: 0
+        };
+        afterAll(function (onDone) {
+              count.contents = count.contents + 1 | 0;
+              return Curry._1(onDone, undefined);
+            });
+        test("afterAllAsync 1", (function () {
+                return expect(count.contents).toEqual(0);
+              }));
+        test("afterAllAsync 2", (function () {
+                return expect(count.contents).toEqual(0);
+              }));
+        
+      }));
+
+describe("afterAllAsyncTimeout", (function () {
+        var count = {
+          contents: 0
+        };
+        afterAll((function (onDone) {
+                count.contents = count.contents + 1 | 0;
+                return Curry._1(onDone, undefined);
+              }), 0);
+        test("afterAllAsyncTimeout 1", (function () {
+                return expect(count.contents).toEqual(0);
+              }));
+        test("afterAllAsyncTimeout 2", (function () {
+                return expect(count.contents).toEqual(0);
+              }));
+        
+      }));
+
 describe("Mock", (function () {
+        test.todo("fn");
+        test.todo("empty");
         test("make", (function () {
                 var mock = jest.fn(function (str) {
                       return str + "";
@@ -297,6 +766,160 @@ describe("Mock", (function () {
                 expect(mock).toHaveBeenLastCalledWith("Last");
                 return expect(mock).toHaveLastReturnedWith("Last");
               }));
+        test.todo("make2");
+        test.todo("make3");
+        test.todo("spyOn");
+        test.todo("spyOnGetter");
+        test.todo("spyOnSetter");
+        test.todo("return_node");
+        test.todo("calls");
+        test.todo("callsWrapArray");
+        test.todo("_results");
+        test.todo("results_type");
+        test.todo("results");
+        test.todo("instances");
+        test.todo("lastCall");
+        test.todo("lastCallWrapArray");
+        test.todo("getMockName");
+        test.todo("setMockname");
+        test.todo("mockClear");
+        test.todo("mockReset");
+        test.todo("mockRestore");
+        test.todo("mockImplementation");
+        test.todo("mockImplementationOnce");
+        test.todo("mockReturnValue");
+        test.todo("mockReturnValueOnce");
+        test.todo("mockResolvedValue");
+        test.todo("mockResolvedValueOnce");
+        test.todo("mockRejectedValue");
+        test.todo("mockRejectedValueOnce");
+        
+      }));
+
+describe("Expect", (function () {
+        test.todo("not");
+        test.todo("unsafe");
+        test.todo("resolves");
+        test.todo("rejects");
+        test.todo("toBe");
+        test.todo("toEqual");
+        test.todo("toStrictEqual");
+        test.todo("toHaveBeenLastCalledWith");
+        test.todo("toHaveBeenLastCalledWith1");
+        test.todo("toHaveBeenLastCalledWith2");
+        test.todo("toHaveBeenLastCalledWith3");
+        test.todo("toHaveBeenLastCalledWith4");
+        test.todo("toHaveBeenLastCalledWith5");
+        test.todo("toHaveLastReturnedWith");
+        test.todo("toHaveBeenNthCalledWith");
+        test.todo("toHaveBeenNthCalledWith1");
+        test.todo("toHaveBeenNthCalledWith2");
+        test.todo("toHaveBeenNthCalledWith3");
+        test.todo("toHaveBeenNthCalledWith4");
+        test.todo("toHaveBeenNthCalledWith5");
+        test.todo("toHaveNthReturnedWith");
+        test.todo("toBeCalled");
+        test.todo("toBeCalledTimes");
+        test.todo("toHaveBeenCalledWith");
+        test.todo("toHaveBeenCalledWith1");
+        test.todo("toHaveBeenCalledWith2");
+        test.todo("toHaveBeenCalledWith3");
+        test.todo("toHaveBeenCalledWith4");
+        test.todo("toHaveBeenCalledWith5");
+        test.todo("toHaveReturned");
+        test.todo("toHaveReturnedWith");
+        test.todo("toBeCloseTo");
+        test.todo("toBeCloseToWithDigit");
+        test.todo("toBeDefined");
+        test.todo("toBeFalsy");
+        test.todo("toBeTruthy");
+        test.todo("toBeGreaterThan");
+        test.todo("toBeGreaterThanOrEqual");
+        test.todo("toBeGreaterThanFloat");
+        test.todo("toBeGreaterThanOrEqualFloat");
+        test.todo("toBeLessThan");
+        test.todo("toBeLessThanOrEqual");
+        test.todo("toBeLessThanFloat");
+        test.todo("toBeLessThanOrEqualFloat");
+        test.todo("toBeNull");
+        test.todo("toBeUndefined");
+        test.todo("toBeNaN");
+        test.todo("toBeNaNFloat");
+        test.todo("toContain");
+        test.todo("toContainEqual");
+        test.todo("toHaveLength");
+        test.todo("toHaveProperty");
+        test.todo("toHavePropertyValue");
+        test.todo("toMatch");
+        test.todo("toMatchString");
+        test.todo("toMatchObject");
+        test.todo("toMatchSnapshot");
+        test.todo("toMatchInlineSnapshot");
+        test.todo("toThrow");
+        test.todo("toThrowString");
+        test.todo("toThrowRegexp");
+        test.todo("toThrowError");
+        
+      }));
+
+describe("ExpectStatic", (function () {
+        test.todo("anything");
+        test.todo("anyInt");
+        test.todo("anyFloat");
+        test.todo("anyString");
+        test.todo("any");
+        test.todo("arrayContaining");
+        test.todo("objectContaining");
+        test.todo("stringContaining");
+        test.todo("stringMatching");
+        test.todo("notArrayContaining");
+        test.todo("notObjectContaining");
+        test.todo("notStringContaining");
+        test.todo("notStringMatching");
+        test.todo("closeTo");
+        test.todo("closeToWithDigit");
+        test.todo("assertions");
+        test.todo("hasAssertions");
+        
+      }));
+
+describe("JestJs", (function () {
+        test.todo("require");
+        test.todo("requireActual");
+        test.todo("requireMock");
+        test.todo("mock");
+        test.todo("mockFactoryUnsafe");
+        test.todo("mockFactory");
+        test.todo("mockFactoryVirtual");
+        test.todo("dontMock");
+        test.todo("doMock");
+        test.todo("doMockFactoryUnsafe");
+        test.todo("doMockFactory");
+        test.todo("doMockFactoryVirtual");
+        test.todo("autoMockOff");
+        test.todo("autoMockOn");
+        test.todo("clearAllMocks");
+        test.todo("resetAllMocks");
+        test.todo("restoreAllMocks");
+        test.todo("clearAllTimers");
+        test.todo("getTimerCount");
+        test.todo("setSystemTime");
+        test.todo("setSystemDate");
+        test.todo("getRealSystemTime");
+        test.todo("disableAutomock");
+        test.todo("enableAutomock");
+        test.todo("resetModules");
+        test.todo("isolateModules");
+        test.todo("runAllImmediates");
+        test.todo("runAllTicks");
+        test.todo("runAllTimers");
+        test.todo("runOnlyPendingTimers");
+        test.todo("advanceTimersByTime");
+        test.todo("advanceTimersToNextTimer");
+        test.todo("setTimeout");
+        test.todo("useFakeTimers");
+        test.todo("useRealTimers");
+        test.todo("useFakeTimersWithConfig");
         
       }));
 
