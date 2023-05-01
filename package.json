@@ -8,8 +8,7 @@
   "dependencies": {},
   "devDependencies": {
     "bs-platform": "8.2.0",
-    "jest": "^26.5.2",
-    "npmpub": "^5.1.1"
+    "jest": "^26.5.2"
   },
   "peerDependencies": {
     "bs-platform": "8.2.0",
@@ -20,6 +19,6 @@
     "build": "bsb -make-world",
     "watch": "bsb -make-world -w",
     "test": "jest",
-    "release": "npmpub"
+    "release": "./release.sh"
   }
 }
