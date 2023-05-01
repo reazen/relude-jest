@@ -2,6 +2,10 @@
 
 ReasonML bindings for Jest.
 
+# npm
+
+https://www.npmjs.com/package/relude-jest
+
 # Commands
 
 ```
