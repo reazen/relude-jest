@@ -5,12 +5,6 @@ var Curry = require("bs-platform/lib/js/curry.js");
 var Caml_format = require("bs-platform/lib/js/caml_format.js");
 
 describe("Describe", (function () {
-        describe.skip("skip", (function () {
-                test("skip", (function () {
-                        return expect(42).toEqual(42);
-                      }));
-                
-              }));
         describe.each([
                 "a",
                 "b",
@@ -131,8 +125,9 @@ describe("Test globals", (function () {
                 expect(42).toEqual(42);
                 return Curry._1(onDone, undefined);
               }));
-        test("testAsyncTimeout", (function () {
-                return Promise.resolve(expect(42).toEqual(42));
+        test("testAsyncTimeout", (function (onDone) {
+                expect(42).toEqual(42);
+                return Curry._1(onDone, undefined);
               }), 0);
         
       }));
@@ -145,6 +140,17 @@ describe("Test", (function () {
         test("itPromise", (function () {
                 return Promise.resolve(expect(42).toEqual(42));
               }));
+        test("itPromise", (function () {
+                return Promise.resolve(expect(42).toEqual(42));
+              }), 0);
+        test("itAsync", (function (onDone) {
+                expect(42).toEqual(42);
+                return Curry._1(onDone, undefined);
+              }));
+        test("itAsync", (function (onDone) {
+                expect(42).toEqual(42);
+                return Curry._1(onDone, undefined);
+              }), 0);
         test.each([
                 "a",
                 "b"
@@ -209,28 +215,69 @@ describe("Test", (function () {
                       }), 0);
                 
               }));
-        return test.each([
-                      [
-                        1,
+        test.each([
+                [
+                  1,
+                  "1",
+                  1,
+                  "1",
+                  1
+                ],
+                [
+                  2,
+                  "2",
+                  2,
+                  "2",
+                  2
+                ]
+              ])("eachAsync5", (function (a, _b, _c, _d, e, onDone) {
+                setTimeout((function (param) {
+                        expect(Caml_format.caml_int_of_string(String(Caml_format.caml_int_of_string(String(a))))).toEqual(e);
+                        return Curry._1(onDone, undefined);
+                      }), 0);
+                
+              }));
+        test.each([
+                "a",
+                "b"
+              ])("eachAsync1Timeout", (function (a, onDone) {
+                expect(a).toEqual(a);
+                return Curry._1(onDone, undefined);
+              }), 0);
+        test.each([[
+                  "1",
+                  1
+                ]])("eachAsync2Timeout", (function (a, b, onDone) {
+                expect(Caml_format.caml_int_of_string(a)).toEqual(b);
+                return Curry._1(onDone, undefined);
+              }), 0);
+        test.each([[
+                  "1",
+                  1,
+                  "1"
+                ]])("eachAsync3Timeout", (function (a, _b, c, onDone) {
+                expect(String(Caml_format.caml_int_of_string(a))).toEqual(c);
+                return Curry._1(onDone, undefined);
+              }), 0);
+        test.each([[
+                  "1",
+                  1,
+                  "1",
+                  1
+                ]])("eachAsync4Timeout", (function (a, _b, _c, d, onDone) {
+                expect(Caml_format.caml_int_of_string(String(Caml_format.caml_int_of_string(a)))).toEqual(d);
+                return Curry._1(onDone, undefined);
+              }), 0);
+        return test.each([[
                         "1",
                         1,
                         "1",
-                        1
-                      ],
-                      [
-                        2,
-                        "2",
-                        2,
-                        "2",
-                        2
-                      ]
-                    ])("eachAsync5", (function (a, _b, _c, _d, e, onDone) {
-                      setTimeout((function (param) {
-                              expect(Caml_format.caml_int_of_string(String(Caml_format.caml_int_of_string(String(a))))).toEqual(e);
-                              return Curry._1(onDone, undefined);
-                            }), 0);
-                      
-                    }));
+                        1,
+                        "1"
+                      ]])("eachAsync5Timeout", (function (a, _b, _c, _d, e, onDone) {
+                      expect(String(Caml_format.caml_int_of_string(String(Caml_format.caml_int_of_string(a))))).toEqual(e);
+                      return Curry._1(onDone, undefined);
+                    }), 0);
       }));
 
 describe("Mock", (function () {

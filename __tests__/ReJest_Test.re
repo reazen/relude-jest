@@ -3,18 +3,18 @@ open Expect;
 
 describe("Describe", () => {
   /*
-   Describe.only("only", () => {
-     test("only", () => {
+    Describe.only("only", () => {
+      test("only", () => {
+        expect(42)->toEqual(42)
+      })
+    });
+
+   Describe.skip("skip", () => {
+     test("skip", () => {
        expect(42)->toEqual(42)
      })
    });
-   */
-
-  Describe.skip("skip", () => {
-    test("skip", () => {
-      expect(42)->toEqual(42)
-    })
-  });
+    */
 
   (Describe.each1([|"a", "b", "c"|]))(. "test", value => {
     test("each1", () => {
@@ -80,9 +80,16 @@ describe("Test globals", () => {
     onDone();
   });
 
-  testAsyncTimeout("testAsyncTimeout", ~timeout=0, () => {
-    Js.Promise.resolve(expect(42)->toEqual(42))
-  });
+  testAsyncTimeout(.
+    "testAsyncTimeout",
+    ~timeout=0,
+    onDone => {
+      expect(42)->toEqual(42);
+      onDone();
+    },
+  );
+
+  ();
 });
 
 describe("Test", () => {
@@ -94,6 +101,75 @@ describe("Test", () => {
   Test.itPromise("itPromise", () => {
     Js.Promise.resolve(expect(42)->toEqual(42))
   });
+
+  Test.itPromiseTimeout("itPromise", ~timeout=0, () => {
+    Js.Promise.resolve(expect(42)->toEqual(42))
+  });
+
+  Test.itAsync(."itAsync", onDone => {
+    expect(42)->toEqual(42);
+    onDone();
+  });
+
+  Test.itAsyncTimeout(.
+    "itAsync",
+    ~timeout=0,
+    onDone => {
+      expect(42)->toEqual(42);
+      onDone();
+    },
+  );
+
+  // TODO:
+  // only
+  // onlyPromise
+  // onlyPromiseTimeout
+  // onlyAsync
+  // onlyAsyncTimeout
+
+  // TODO:
+  // failing
+  // failingPromise
+  // failingPromiseTimeout
+  // failingAsync
+  // failingAsyncTimeout
+  /*
+   Test.failing(."failing", onDone => {
+     expect(42)->toEqual(43);
+     onDone();
+   });
+
+   Test.failingPromise("failingPromise", () => {
+     Js.Promise.reject(Obj.magic("test error"))
+   });
+   */
+
+  // TODO:
+  // skip
+  // skipPromise
+  // skipPromiseTimeout
+  // skipAsync
+  // skipAsyncTimeout
+
+  // TODO:
+  // todo
+
+  // TODO:
+  // each1
+  // each2
+  // each3
+  // each4
+  // each5
+  // eachPromise1
+  // eachPromise2
+  // eachPromise3
+  // eachPromise4
+  // eachPromise5
+  // eachPromise1Timeout
+  // eachPromise2Timeout
+  // eachPromise3Timeout
+  // eachPromise4Timeout
+  // eachPromise5Timeout
 
   (Test.eachAsync1([|"a", "b"|]))(. "eachAsync1", (a, onDone) => {
     Js.Global.setTimeout(
@@ -156,6 +232,55 @@ describe("Test", () => {
     )
     |> ignore
   });
+
+  (Test.eachAsync1Timeout([|"a", "b"|]))(.
+    "eachAsync1Timeout",
+    (a, onDone) => {
+      expect(a)->toEqual(a);
+      onDone();
+    },
+    0,
+  );
+
+  (Test.eachAsync2Timeout([|("1", 1)|]))(.
+    "eachAsync2Timeout",
+    (a, b, onDone) => {
+      expect(a |> int_of_string)->toEqual(b);
+      onDone();
+    },
+    0,
+  );
+
+  (Test.eachAsync3Timeout([|("1", 1, "1")|]))(.
+    "eachAsync3Timeout",
+    (a, _b, c, onDone) => {
+      expect(a |> int_of_string |> string_of_int)->toEqual(c);
+      onDone();
+    },
+    0,
+  );
+
+  (Test.eachAsync4Timeout([|("1", 1, "1", 1)|]))(.
+    "eachAsync4Timeout",
+    (a, _b, _c, d, onDone) => {
+      expect(a |> int_of_string |> string_of_int |> int_of_string)
+      ->toEqual(d);
+      onDone();
+    },
+    0,
+  );
+
+  (Test.eachAsync5Timeout([|("1", 1, "1", 1, "1")|]))(.
+    "eachAsync5Timeout",
+    (a, _b, _c, _d, e, onDone) => {
+      expect(
+        a |> int_of_string |> string_of_int |> int_of_string |> string_of_int,
+      )
+      ->toEqual(e);
+      onDone();
+    },
+    0,
+  );
 });
 
 describe("Mock", () =>
