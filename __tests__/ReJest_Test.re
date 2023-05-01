@@ -283,24 +283,199 @@ describe("Test", () => {
   );
 });
 
-describe("Mock", () =>
-  test("make", () => {
-    let mock = Mock.make(str => str ++ "");
+// TODO
+// beforeEach
+// beforeEachPromise
+// beforeEachPromiseTimeout
+// beforeEachAsync
+// beforeEachAsyncTimeout
+// beforeAll
+// beforeAllPromise
+// beforeAllPromiseTimeout
+// beforeAllAsync
+// beforeAllAsyncTimeout
+// afterEach
+// afterEachPromise
+// afterEachPromiseTimeout
+// afterEachAsync
+// afterEachAsyncTimeout
+// afterAll
+// afterAllPromise
+// afterAllPromiseTimeout
+// afterAllAsync
+// afterAllAsyncTimeout
 
-    mock->Mock.fn("Hello")->ignore;
-    mock->Mock.fn("Green")->ignore;
-    mock->Mock.fn("Last")->ignore;
+describe("Mock", ()
+  // TODO:
+  // fn
+  // empty
+  =>
+    test("make", () => {
+      let mock = Mock.make(str => str ++ "");
 
-    expect(mock)->toBeCalled;
-    expect(mock)->toBeCalledTimes(3);
+      mock->Mock.fn("Hello")->ignore;
+      mock->Mock.fn("Green")->ignore;
+      mock->Mock.fn("Last")->ignore;
 
-    expect(mock)->toHaveBeenNthCalledWith1(1, "Hello");
-    expect(mock)->toHaveNthReturnedWith(1, "Hello");
+      expect(mock)->toBeCalled;
+      expect(mock)->toBeCalledTimes(3);
 
-    expect(mock)->toHaveBeenNthCalledWith1(2, "Green");
-    expect(mock)->toHaveNthReturnedWith(2, "Green");
+      expect(mock)->toHaveBeenNthCalledWith1(1, "Hello");
+      expect(mock)->toHaveNthReturnedWith(1, "Hello");
 
-    expect(mock)->toHaveBeenLastCalledWith1("Last");
-    expect(mock)->toHaveLastReturnedWith("Last");
-  })
-);
+      expect(mock)->toHaveBeenNthCalledWith1(2, "Green");
+      expect(mock)->toHaveNthReturnedWith(2, "Green");
+
+      expect(mock)->toHaveBeenLastCalledWith1("Last");
+      expect(mock)->toHaveLastReturnedWith("Last");
+    })
+  );
+// TODO:
+// make2
+// make3
+// spyOn
+// spyOnGetter
+// spyOnSetter
+// return_node
+// calls
+// callsWrapArray
+// _results
+// results_type
+// results
+// instances
+// lastCall
+// lastCallWrapArray
+// getMockName
+// setMockname
+// mockClear
+// mockReset
+// mockRestore
+// mockImplementation
+// mockImplementationOnce
+// mockReturnValue
+// mockReturnValueOnce
+// mockResolvedValue
+// mockResolvedValueOnce
+// mockRejectedValue
+// mockRejectedValueOnce
+
+// TODO: module Expect
+// not
+// unsafe
+// resolves
+// rejects
+// toBe
+// toEqual
+// toStrictEqual
+// toHaveBeenLastCalledWith
+// toHaveBeenLastCalledWith1
+// toHaveBeenLastCalledWith2
+// toHaveBeenLastCalledWith3
+// toHaveBeenLastCalledWith4
+// toHaveBeenLastCalledWith5
+// toHaveLastReturnedWith
+// toHaveBeenNthCalledWith
+// toHaveBeenNthCalledWith1
+// toHaveBeenNthCalledWith2
+// toHaveBeenNthCalledWith3
+// toHaveBeenNthCalledWith4
+// toHaveBeenNthCalledWith5
+// toHaveNthReturnedWith
+// toBeCalled
+// toBeCalledTimes
+// toHaveBeenCalledWith
+// toHaveBeenCalledWith1
+// toHaveBeenCalledWith2
+// toHaveBeenCalledWith3
+// toHaveBeenCalledWith4
+// toHaveBeenCalledWith5
+// toHaveReturned
+// toHaveReturnedWith
+// toBeCloseTo
+// toBeCloseToWithDigit
+// toBeDefined
+// toBeFalsy
+// toBeTruthy
+// toBeGreaterThan
+// toBeGreaterThanOrEqual
+// toBeGreaterThanFloat
+// toBeGreaterThanOrEqualFloat
+// toBeLessThan
+// toBeLessThanOrEqual
+// toBeLessThanFloat
+// toBeLessThanOrEqualFloat
+// toBeNull
+// toBeUndefined
+// toBeNaN
+// toBeNaNFloat
+// toContain
+// toContainEqual
+// toHaveLength
+// toHaveProperty
+// toHavePropertyValue
+// toMatch
+// toMatchString
+// toMatchObject
+// toMatchSnapshot
+// toMatchInlineSnapshot
+// toThrow
+// toThrowString
+// toThrowRegexp
+// toThrowError
+
+// TODO: module ExpectStatic
+// anything
+// anyInt
+// anyFloat
+// anyString
+// any
+// arrayContaining
+// objectContaining
+// stringContaining
+// stringMatching
+// notArrayContaining
+// notObjectContaining
+// notStringContaining
+// notStringMatching
+// closeTo
+// closeToWithDigit
+// assertions
+// hasAssertions
+
+// TODO: module JestJs
+// require
+// requireActual
+// requireMock
+// mock
+// mockFactoryUnsafe
+// mockFactory
+// mockFactoryVirtual
+// dontMock
+// doMock
+// doMockFactoryUnsafe
+// doMockFactory
+// doMockFactoryVirtual
+// autoMockOff
+// autoMockOn
+// clearAllMocks
+// resetAllMocks
+// restoreAllMocks
+// clearAllTimers
+// getTimerCount
+// setSystemTime
+// setSystemDate
+// getRealSystemTime
+// disableAutomock
+// enableAutomock
+// resetModules
+// isolateModules
+// runAllImmediates
+// runAllTicks
+// runAllTimers
+// runOnlyPendingTimers
+// advanceTimersByTime
+// advanceTimersToNextTimer
+// setTimeout
+// useFakeTimers
+// useRealTimers
+// useFakeTimersWithConfig
