@@ -2,6 +2,9 @@
   "name": "relude-jest",
   "version": "0.3.0",
   "license": "MIT",
+  "repository": {
+    "url": "https://github.com/reazen/relude-jest.git"
+  },
   "dependencies": {},
   "devDependencies": {
     "bs-platform": "8.2.0",
