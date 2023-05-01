@@ -28,3 +28,4 @@ lib/bs
 
 # Node.js
 node_modules/
+yarn-error.log
