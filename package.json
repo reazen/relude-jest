@@ -17,6 +17,6 @@
     "build": "bsb -make-world",
     "watch": "bsb -make-world -w",
     "test": "jest",
-    "release": "./release.sh"
+    "release": "npmpub"
   }
 }
