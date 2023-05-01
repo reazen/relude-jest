@@ -1,13 +1,12 @@
+# relude-jest
 
+ReasonML bindings for Jest.
 
-# Build
-```
-npm run build
-```
-
-# Watch
+# Commands
 
 ```
-npm run watch
+> npm run clean
+> npm run build
+> npm run watch
+> npm run release
 ```
-
