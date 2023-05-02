@@ -423,9 +423,6 @@ module Mock = {
   external calls: t(_, 'args, _) => array('args) = "calls";
 
   [@bs.get] [@bs.scope "mock"]
-  external callsWrapArray: t(_, 'args, _) => array(array('args)) = "calls";
-
-  [@bs.get] [@bs.scope "mock"]
   external _results: t(_, _, 'return) => array(return_node('return)) =
     "results";
 
@@ -626,7 +623,7 @@ module Expect = {
   [@bs.send]
   external toHaveBeenNthCalledWith3:
     (
-      expect(Mock.t(_, ('arg1, 'arg2), _), 'expect_ret),
+      expect(Mock.t(_, ('arg1, 'arg2, 'arg3), _), 'expect_ret),
       int,
       'arg1,
       'arg2,

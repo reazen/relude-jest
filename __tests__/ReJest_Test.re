@@ -764,17 +764,84 @@ describe("Mock", () => {
     expect(mock)->toHaveLastReturnedWith("Last!");
   });
 
-  Test.todo("make2");
-  Test.todo("make3");
+  test("make2", () => {
+    let mock = Mock.make2((str, int) => str ++ string_of_int(int));
+
+    mock->Mock.fn("A", 1)->ignore;
+    mock->Mock.fn("B", 2)->ignore;
+    mock->Mock.fn("C", 3)->ignore;
+
+    expect(mock)->toBeCalled;
+    expect(mock)->toBeCalledTimes(3);
+
+    expect(mock)->toHaveBeenNthCalledWith2(1, "A", 1);
+    expect(mock)->toHaveNthReturnedWith(1, "A1");
+
+    expect(mock)->toHaveBeenNthCalledWith2(2, "B", 2);
+    expect(mock)->toHaveNthReturnedWith(2, "B2");
+
+    expect(mock)->toHaveBeenNthCalledWith2(3, "C", 3);
+    expect(mock)->toHaveNthReturnedWith(3, "C3");
+  });
+
+  test("make3", () => {
+    let mock =
+      Mock.make3((str, int, b) =>
+        str ++ string_of_int(int) ++ string_of_bool(b)
+      );
+
+    mock->Mock.fn("A", 1, true)->ignore;
+    mock->Mock.fn("B", 2, false)->ignore;
+    mock->Mock.fn("C", 3, true)->ignore;
+
+    expect(mock)->toBeCalled;
+    expect(mock)->toBeCalledTimes(3);
+
+    expect(mock)->toHaveBeenNthCalledWith3(1, "A", 1, true);
+    expect(mock)->toHaveNthReturnedWith(1, "A1true");
+
+    expect(mock)->toHaveBeenNthCalledWith3(2, "B", 2, false);
+    expect(mock)->toHaveNthReturnedWith(2, "B2false");
+
+    expect(mock)->toHaveBeenNthCalledWith3(3, "C", 3, true);
+    expect(mock)->toHaveNthReturnedWith(3, "C3true");
+  });
+
   Test.todo("spyOn");
   Test.todo("spyOnGetter");
   Test.todo("spyOnSetter");
   Test.todo("return_node");
-  Test.todo("calls");
-  Test.todo("callsWrapArray");
+
+  test("calls", () => {
+    let mock = Mock.make2((str, int) => str ++ string_of_int(int) ++ "!");
+
+    expect(mock->Mock.calls)->toEqual([||]);
+
+    mock->Mock.fn("A", 1)->ignore;
+    expect(mock->Mock.calls)->toEqual([|("A", 1)|]);
+
+    mock->Mock.fn("B", 2)->ignore;
+    expect(mock->Mock.calls)->toEqual([|("A", 1), ("B", 2)|]);
+
+    mock->Mock.fn("C", 3)->ignore;
+    expect(mock->Mock.calls)->toEqual([|("A", 1), ("B", 2), ("C", 3)|]);
+  });
+
   Test.todo("_results");
   Test.todo("results_type");
-  Test.todo("results");
+
+  test("results", () => {
+    let mock = Mock.make2((str, int) => str ++ string_of_int(int) ++ "!");
+
+    mock->Mock.fn("A", 1)->ignore;
+    mock->Mock.fn("B", 2)->ignore;
+    mock->Mock.fn("C", 3)->ignore;
+
+    Js.log(mock->Mock.results);
+    expect(mock->Mock.results)
+    ->toEqual([|Return("A1!"), Return("B2!"), Return("C3!")|]);
+  });
+
   Test.todo("instances");
   Test.todo("lastCall");
   Test.todo("lastCallWrapArray");

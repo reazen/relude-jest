@@ -2,6 +2,8 @@
 'use strict';
 
 var Curry = require("bs-platform/lib/js/curry.js");
+var ReJest = require("../src/ReJest.bs.js");
+var Pervasives = require("bs-platform/lib/js/pervasives.js");
 var Caml_format = require("bs-platform/lib/js/caml_format.js");
 
 describe("Describe", (function () {
@@ -766,17 +768,104 @@ describe("Mock", (function () {
                 expect(mock).toHaveBeenLastCalledWith("Last");
                 return expect(mock).toHaveLastReturnedWith("Last!");
               }));
-        test.todo("make2");
-        test.todo("make3");
+        test("make2", (function () {
+                var mock = jest.fn(function (str, $$int) {
+                      return str + String($$int);
+                    });
+                Curry._2(mock, "A", 1);
+                Curry._2(mock, "B", 2);
+                Curry._2(mock, "C", 3);
+                expect(mock).toBeCalled();
+                expect(mock).toBeCalledTimes(3);
+                expect(mock).toHaveBeenNthCalledWith(1, "A", 1);
+                expect(mock).toHaveNthReturnedWith(1, "A1");
+                expect(mock).toHaveBeenNthCalledWith(2, "B", 2);
+                expect(mock).toHaveNthReturnedWith(2, "B2");
+                expect(mock).toHaveBeenNthCalledWith(3, "C", 3);
+                return expect(mock).toHaveNthReturnedWith(3, "C3");
+              }));
+        test("make3", (function () {
+                var mock = jest.fn(function (str, $$int, b) {
+                      return str + (String($$int) + Pervasives.string_of_bool(b));
+                    });
+                Curry._3(mock, "A", 1, true);
+                Curry._3(mock, "B", 2, false);
+                Curry._3(mock, "C", 3, true);
+                expect(mock).toBeCalled();
+                expect(mock).toBeCalledTimes(3);
+                expect(mock).toHaveBeenNthCalledWith(1, "A", 1, true);
+                expect(mock).toHaveNthReturnedWith(1, "A1true");
+                expect(mock).toHaveBeenNthCalledWith(2, "B", 2, false);
+                expect(mock).toHaveNthReturnedWith(2, "B2false");
+                expect(mock).toHaveBeenNthCalledWith(3, "C", 3, true);
+                return expect(mock).toHaveNthReturnedWith(3, "C3true");
+              }));
         test.todo("spyOn");
         test.todo("spyOnGetter");
         test.todo("spyOnSetter");
         test.todo("return_node");
-        test.todo("calls");
-        test.todo("callsWrapArray");
+        test("calls", (function () {
+                var mock = jest.fn(function (str, $$int) {
+                      return str + (String($$int) + "!");
+                    });
+                expect(mock.mock.calls).toEqual([]);
+                Curry._2(mock, "A", 1);
+                expect(mock.mock.calls).toEqual([[
+                        "A",
+                        1
+                      ]]);
+                Curry._2(mock, "B", 2);
+                expect(mock.mock.calls).toEqual([
+                      [
+                        "A",
+                        1
+                      ],
+                      [
+                        "B",
+                        2
+                      ]
+                    ]);
+                Curry._2(mock, "C", 3);
+                return expect(mock.mock.calls).toEqual([
+                            [
+                              "A",
+                              1
+                            ],
+                            [
+                              "B",
+                              2
+                            ],
+                            [
+                              "C",
+                              3
+                            ]
+                          ]);
+              }));
         test.todo("_results");
         test.todo("results_type");
-        test.todo("results");
+        test("results", (function () {
+                var mock = jest.fn(function (str, $$int) {
+                      return str + (String($$int) + "!");
+                    });
+                Curry._2(mock, "A", 1);
+                Curry._2(mock, "B", 2);
+                Curry._2(mock, "C", 3);
+                console.log(ReJest.Mock.results(mock));
+                return expect(ReJest.Mock.results(mock)).toEqual([
+                            {
+                              TAG: /* Return */0,
+                              _0: "A1!"
+                            },
+                            {
+                              TAG: /* Return */0,
+                              _0: "B2!"
+                            },
+                            {
+                              TAG: /* Return */0,
+                              _0: "C3!"
+                            }
+                          ]);
+              }));
         test.todo("instances");
         test.todo("lastCall");
         test.todo("lastCallWrapArray");
