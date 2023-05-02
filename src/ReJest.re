@@ -447,10 +447,14 @@ module Mock = {
   [@bs.get] [@bs.scope "mock"]
   external instances: t(_, _, 'return) => array('return) = "instances";
 
-  external lastCall: t(_, 'args, _) => option('args) = "lastCall";
+  /* lastCall doesn't exist in v26
+     [@bs.get] [@bs.scope "mock"]
+     external lastCall: t(_, 'args, _) => option('args) = "lastCall";
 
-  external lastCallWrapArray: t(_, 'args, _) => option(array('args)) =
-    "lastCall";
+     [@bs.get] [@bs.scope "mock"]
+     external lastCallWrapArray: t(_, 'args, _) => option(array('args)) =
+       "lastCall";
+       */
 
   // functions
   [@bs.send] external getMockName: t(_, _, _) => string = "getMockName";

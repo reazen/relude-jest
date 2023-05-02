@@ -837,13 +837,24 @@ describe("Mock", () => {
     mock->Mock.fn("B", 2)->ignore;
     mock->Mock.fn("C", 3)->ignore;
 
-    Js.log(mock->Mock.results);
     expect(mock->Mock.results)
     ->toEqual([|Return("A1!"), Return("B2!"), Return("C3!")|]);
   });
 
   Test.todo("instances");
+
   Test.todo("lastCall");
+  /*
+   test("lastCall", () => {
+     let mock = Mock.make(str => str ++ "!");
+
+     mock->Mock.fn("A")->ignore;
+     mock->Mock.fn("B")->ignore;
+
+     expect(mock->Mock.lastCall)->toEqual(Some("B"));
+   });
+   */
+
   Test.todo("lastCallWrapArray");
   Test.todo("getMockName");
   Test.todo("setMockname");

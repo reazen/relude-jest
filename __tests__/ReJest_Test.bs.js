@@ -850,7 +850,6 @@ describe("Mock", (function () {
                 Curry._2(mock, "A", 1);
                 Curry._2(mock, "B", 2);
                 Curry._2(mock, "C", 3);
-                console.log(ReJest.Mock.results(mock));
                 return expect(ReJest.Mock.results(mock)).toEqual([
                             {
                               TAG: /* Return */0,
